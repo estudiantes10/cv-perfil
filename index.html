@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Generador de Hoja de Vida Elyon Yireh</title>
+  <title>Hoja de Vida Elyon Yireh</title>
   <style>
-    /* Asegura que los colores de fondo y bordes se impriman en PDF */
     body, table, tr, td, th, .container, [style*="background"] {
       -webkit-print-color-adjust: exact !important;
       print-color-adjust: exact !important;
@@ -75,32 +74,37 @@
       margin-bottom: 12px;
     }
     .btn-download {
-      background: #1e88e5;
-      color: #fff;
+      background: linear-gradient(90deg,#e0f7fa,#4dd0e1);
+      color: #1565c0;
       border: none;
       border-radius: 8px;
       padding: 10px 28px;
       font-size: 1em;
       font-weight: 600;
-      box-shadow: 0 2px 8px #1e88e522;
+      box-shadow: 0 2px 8px #4dd0e133;
       cursor: pointer;
       margin-top: 18px;
       transition: background 0.2s;
     }
+    .btn-download:hover {
+      background: linear-gradient(90deg,#4dd0e1,#e0f7fa);
+      color: #1565c0;
+    }
     @media print {
-      .btn-download {
+      .btn-download,
+      .btn-adjuntar {
         display: none !important;
       }
       #btn-foto,
       #foto-placeholder {
         display: none !important;
       }
-      /* Elimina bordes y fondo del recuadro de la foto, pero NO afecta los inputs de INFORMACIÓN PERSONAL */
+  
       [style*="border:2px dashed #1e88e5"] {
         border: none !important;
         background: none !important;
       }
-      /* Restaurar fondo transparente solo para los inputs de INFORMACIÓN PERSONAL al imprimir */
+      /* fondo transparente solo para los inputs de INFORMACIÓN PERSONAL al imprimir */
       tr td input[placeholder="Nombre y Apellidos"],
       tr td input[placeholder="Lugar y Fecha de Nacimiento"],
       tr td input[placeholder="Dirección"],
@@ -113,14 +117,82 @@
         background: transparent !important;
       }
     }
-    .btn-download:hover {
-      background: #1565c0;
-    }
+    /* --- RESPONSIVE PARA CELULAR Y TABLET --- */
+@media (max-width: 950px) {
+  .container {
+    max-width: 100vw;
+    padding: 8px;
+    box-sizing: border-box;
+  }
+  .pagina {
+    width: 100% !important;
+    margin: 0 !important;
+    box-sizing: border-box;
+    padding: 0;
+  }
+  .cv-section, .form-section {
+    min-width: 0 !important;
+    width: 100% !important;
+    padding: 12px 4px !important;
+    box-sizing: border-box;
+  }
+  table {
+    font-size: 0.95em !important;
+    width: 100% !important;
+    overflow-x: auto;
+    display: block;
+  }
+  td, th {
+    padding: 4px 2px !important;
+    font-size: 0.95em !important;
+    word-break: break-word;
+  }
+  input, textarea, select {
+    font-size: 1em !important;
+    min-width: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box;
+  }
+  .btn-download {
+    width: 100%;
+    font-size: 1em;
+    padding: 10px 0;
+  }
+}
+@media (max-width: 600px) {
+  .container {
+    padding: 2px;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .pagina {
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+  }
+  .cv-section, .form-section {
+    border-radius: 0;
+    box-shadow: none;
+    padding: 6px 2px !important;
+  }
+  td, th {
+    font-size: 0.92em !important;
+    padding: 2px 1px !important;
+  }
+  .btn-download {
+    font-size: 0.95em;
+    padding: 8px 0;
+  }
+}
   </style>
 </head>
 <body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <div class="container" style="flex-direction:column;">
-    <form id="form-cv" style="width:700px;margin:auto;">
+    <!-- Página 1 -->
+    <div class="pagina" style="width:900px;margin:auto;page-break-after:always;">
+    <!-- Encabezado institucional -->
+    <div style="width:900px;margin:auto;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
         <div style="display:flex;align-items:center;gap:10px;">
           <img src="yireh.png" alt="Logo Elyon Yireh" style="height:38px;width:auto;vertical-align:middle;">
@@ -131,7 +203,7 @@
       <div style="text-align:center;font-size:1.3em;font-weight:700;color:#1e88e5;margin-bottom:8px;">PERFIL OCUPACIONAL</div>
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
         <div style="width:70%;">
-          <input list="carreras-tecnicas" id="programa-input" placeholder="Programa" style="width:100%;border:none;border-bottom:1px solid #1e88e5;background:transparent;font-size:1em;">
+          <input list="carreras-tecnicas" id="programa-input" placeholder="PROGRAMA" style="width:100%;border:none;border-bottom:1.5px solid #1e88e5;background:transparent;font-size:1.5em;font-family:'Georgia', 'Times New Roman', serif;font-weight:600;letter-spacing:1px;color:#000000;">
           <datalist id="carreras-tecnicas">
             <option value="Auxiliar Administrativo">
             <option value="Auxiliar Contable y Financiero">
@@ -156,46 +228,63 @@
             <option value="Técnico Laboral en Auxiliar de Veterinaria">
           </datalist>
         </div>
-        <div style="width:110px;height:120px;background:#e0e7ef;border:2px dashed #1e88e5;border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;flex-direction:column;">
-          <img id="foto-preview" src="" alt="Foto" style="max-width:100%;max-height:100%;display:none;">
-          <span id="foto-placeholder" style="color:#1e88e5;font-size:1em;text-align:center;">Adjuntar Foto</span>
+        <div style="width:150px;height:180px;background:#e0e7ef;border:2px dashed #1e88e5;border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;flex-direction:column;">
+          <img id="foto-preview" src="" alt="Foto" style="max-width:100%;max-height:170px;display:none;">
+          <video id="video-camara" width="120" height="160" style="display:none;border-radius:8px;object-fit:cover;"></video>
+          <span id="foto-placeholder" style="color:#1e88e5;font-size:1em;text-align:center;">FOTO</span>
           <input type="file" id="foto-input" accept="image/*" style="display:none;">
-          <button type="button" id="btn-foto" style="margin-top:6px;background:#1e88e5;color:#fff;border:none;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:0.95em;">Subir foto</button>
+          <div style="display:flex;gap:6px;margin-top:6px;">
+            <button type="button" id="btn-foto" style="background:linear-gradient(90deg,#e0f7fa,#4dd0e1);color:#1565c0;border:none;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:0.95em;">Subir foto</button>
+            <button type="button" id="btn-tomar-foto" style="background:linear-gradient(90deg,#43e97b,#38f9d7);color:#fff;border:none;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:0.95em;">Tomar foto</button>
+            <button type="button" id="btn-capturar" style="display:none;background:linear-gradient(90deg,#1976d2,#43e97b);color:#fff;border:none;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:0.95em;">Capturar</button>
+          </div>
         </div>
       </div>
-      <table style="width:100%;border-collapse:collapse;font-size:0.98em;">
-        <tr>
-          <td colspan="2" style="border:1px solid #1e88e5;padding:4px;font-weight:bold;background:#e0f7fa;">INFORMACIÓN PERSONAL</td>
+    </div>
+      <!-- TABLA INFORMACIÓN PERSONAL INSTITUCIONAL -->
+      <table style="width:100%;border-collapse:collapse;font-size:0.98em;margin-bottom:12px;">
+        <tr style="background:#e0f7fa;">
+          <td colspan="8" style="border:1.5px solid #1e88e5;padding:4px;font-weight:bold;text-align:left;">1. INFORMACIÓN PERSONAL</td>
         </tr>
         <tr>
-          <td style="width:60%;border:1px solid #1e88e5;padding:4px;">
-            <input type="text" placeholder="Nombre y Apellidos" style="width:98%;border:none;border-bottom:1px solid #1e88e5;background:transparent;">
-            <input type="text" placeholder="Lugar y Fecha de Nacimiento" style="width:98%;border:none;border-bottom:1px solid #1e88e5;background:transparent;">
-            <input type="text" placeholder="Dirección" style="width:98%;border:none;border-bottom:1px solid #1e88e5;background:transparent;">
-             <input type="text" placeholder="Teléfono / Celular" style="width:48%;border:none;border-bottom:1px solid #1e88e5;background:transparent;">
-            <input type="email" placeholder="E-mail" style="width:48%;border:none;border-bottom:1px solid #1e88e5;background:transparent;">
-            <div style="display:flex;gap:8px;align-items:center;margin-bottom:4px;">
-              <label style="font-size:0.98em;color:#1565c0;">Estado civil:</label>
-              <select style="border:none;border-bottom:1px solid #1e88e5;background:transparent;">
-                <option value="">Seleccione</option>
-                <option value="Soltero">Soltero</option>
-                <option value="Casado">Casado</option>
-                <option value="Union Libre">Unión Libre</option>       
-              </select>
-              <label style="font-size:0.98em;color:#1565c0;margin-left:12px;">N° de hijos:</label>
-              <input type="number" min="0" style="width:48px;border:none;border-bottom:1px solid #1e88e5;background:transparent;">
-              <label style="font-size:0.98em;color:#1565c0;margin-left:12px;">EPS:</label>
-              <input type="text" placeholder="EPS" style="width:90px;border:none;border-bottom:1px solid #1e88e5;background:transparent;">
-            </div>
+          <td style="border:1px solid #1e88e5;padding:2px;width:22%;">Nombre y Apellidos</td>
+          <td colspan="3" style="border:1px solid #1e88e5;padding:2px;width:38%;"><input type="text" placeholder="Nombre y Apellidos" style="width:100%;border:none;background:transparent;" required></td>
+          <td style="border:1px solid #1e88e5;padding:2px;width:12%;">Cédula</td>
+          <td colspan="3" style="border:1px solid #1e88e5;padding:2px;width:28%;"><input type="text" name="cedula" placeholder="Cédula" style="width:100%;border:none;background:transparent;" required></td>
+        </tr>
+        <tr>
+          <td style="border:1px solid #1e88e5;padding:2px;">Lugar y Fecha de Nacimiento</td>
+          <td colspan="3" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Lugar y Fecha de Nacimiento" style="width:100%;border:none;background:transparent;"></td>
+          <td style="border:1px solid #1e88e5;padding:2px;">N° Libreta Militar</td>
+          <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" name="libreta" placeholder="Libreta Militar" style="width:100%;border:none;background:transparent;"></td>
+          <td style="border:1px solid #1e88e5;padding:2px;">E-mail</td>
+          <td style="border:1px solid #1e88e5;padding:2px;"><input type="email" placeholder="E-mail" style="width:100%;min-width:220px;border:none;background:transparent;overflow-x:auto;"></td>
+        </tr>
+        <tr>
+          <td style="border:1px solid #1e88e5;padding:2px;">Dirección</td>
+          <td colspan="3" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Dirección" style="width:100%;border:none;background:transparent;"></td>
+          <td style="border:1px solid #1e88e5;padding:2px;">Teléfono / Celular</td>
+          <td colspan="3" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Teléfono / Celular" style="width:100%;border:none;background:transparent;"></td>
+        </tr>
+        <tr>
+          <td style="border:1px solid #1e88e5;padding:2px;">N° de Lic. de Conducir</td>
+          <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" name="licencia" placeholder="Licencia de Conducir" style="width:100%;border:none;background:transparent;"></td>
+          <td style="border:1px solid #1e88e5;padding:2px;">Estado Civil</td>
+          <td style="border:1px solid #1e88e5;padding:2px;">
+            <label style="margin-right:8px;"><input type="checkbox" name="soltero"> Soltero</label>
+            <label style="margin-right:8px;"><input type="checkbox" name="casado"> Casado</label>
+            <label style="margin-right:8px;"><input type="checkbox" name="union"> Unión Libre</label>
           </td>
-          <td style="width:40%;border:1px solid #1e88e5;padding:4px;vertical-align:top;">
-            <input type="text" name="cedula" placeholder="Cédula" style="width:98%;border:none;border-bottom:1px solid #1e88e5;background:transparent;">
-            <input type="text" name="licencia" placeholder="N° Lic. de Conducir" style="width:98%;border:none;border-bottom:1px solid #1e88e5;background:transparent;">
-            <input type="text" name="libreta" placeholder="N° Libreta Militar" style="width:98%;border:none;border-bottom:1px solid #1e88e5;background:transparent;">
+          <td style="border:1px solid #1e88e5;padding:2px;">No. de Hijos</td>
+          <td style="border:1px solid #1e88e5;padding:2px;"><input type="number" min="0" style="width:100%;border:none;background:transparent;"></td>
+          <td style="border:1px solid #1e88e5;padding:2px;">EPS</td>
+          <td style="border:1px solid #1e88e5;padding:2px;">
+            <label style="margin-right:8px;"><input type="radio" name="eps" value="contributivo"> Contributivo</label>
+            <label><input type="radio" name="eps" value="subsidiado"> Subsidiado</label>
           </td>
         </tr>
       </table>
-      <table style="width:100%;border-collapse:collapse;font-size:0.98em;margin-top:8px;">
+       <table style="width:100%;border-collapse:collapse;font-size:0.98em;margin-top:8px;">
         <tr>
           <td colspan="8" style="border:1px solid #1e88e5;padding:4px;font-weight:bold;background:#e0f7fa;">FORMACIÓN ACADÉMICA</td>
         </tr>
@@ -207,7 +296,7 @@
           <td style="border:1px solid #1e88e5;padding:2px;">Institución</td>
           <td style="border:1px solid #1e88e5;padding:2px;">Año</td>
           <td style="border:1px solid #1e88e5;padding:2px;">Semestres Cursados</td>
-          <td style="border:1px solid #1e88e5;padding:2px;">Formación Técnica</td>
+          
         </tr>
         <tr>
           <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" name="primaria" placeholder="Primaria" style="width:100%;border:none;background:transparent;"></td>
@@ -217,48 +306,77 @@
           <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" name="institucion" placeholder="Institución" style="width:100%;border:none;background:transparent;"></td>
           <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" name="anio" placeholder="Año" style="width:100%;border:none;background:transparent;"></td>
           <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" name="semestres" placeholder="Semestres Cursados" style="width:100%;border:none;background:transparent;"></td>
-          <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" name="tecnica" placeholder="Formación Técnica" style="width:100%;border:none;background:transparent;"></td>
+        
+        </tr>
+        <!-- Formación Técnica -->
+        <tr style="background:#e0f7fa;">
+          <td colspan="2" style="border:1px solid #1e88e5;padding:2px;font-weight:bold;">Formación Técnica</td>
+          <td style="border:1px solid #1e88e5;padding:2px;font-weight:bold;">Semestre Cursado</td>
+          <td style="border:1px solid #1e88e5;padding:2px;font-weight:bold;">Título Obtenido</td>
+          <td style="border:1px solid #1e88e5;padding:2px;font-weight:bold;">Institución</td>
+          <td style="border:1px solid #1e88e5;padding:2px;font-weight:bold;">Año</td>
+          <td colspan="2" style="border:1px solid #1e88e5;padding:2px;"></td>
         </tr>
         <tr>
-          <td colspan="8" style="border:1px solid #1e88e5;padding:2px;">Formación Superior: <input type="text" style="width:90%;border:none;background:transparent;"></td>
+          <td colspan="2" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Formación Técnica" style="width:100%;border:none;background:transparent;"></td>
+          <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Semestre" style="width:100%;border:none;background:transparent;"></td>
+          <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Título Obtenido" style="width:100%;border:none;background:transparent;"></td>
+          <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Institución" style="width:100%;border:none;background:transparent;"></td>
+          <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Año" style="width:100%;border:none;background:transparent;"></td>
+          <td colspan="2" style="border:1px solid #1e88e5;padding:2px;"></td>
         </tr>
+        <!-- Formación Superior -->
+        <tr style="background:#e0f7fa;">
+          <td colspan="2" style="border:1px solid #1e88e5;padding:2px;font-weight:bold;">Formación Superior</td>
+          <td style="border:1px solid #1e88e5;padding:2px;font-weight:bold;">Semestre Cursado</td>
+          <td style="border:1px solid #1e88e5;padding:2px;font-weight:bold;">Título Obtenido</td>
+          <td style="border:1px solid #1e88e5;padding:2px;font-weight:bold;">Institución</td>
+          <td style="border:1px solid #1e88e5;padding:2px;font-weight:bold;">Año</td>
+          <td colspan="2" style="border:1px solid #1e88e5;padding:2px;"></td>
+        </tr>
+        <tr>
+          <td colspan="2" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Formación Superior" style="width:100%;border:none;background:transparent;"></td>
+          <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Semestre" style="width:100%;border:none;background:transparent;"></td>
+          <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Título Obtenido" style="width:100%;border:none;background:transparent;"></td>
+          <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Institución" style="width:100%;border:none;background:transparent;"></td>
+          <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Año" style="width:100%;border:none;background:transparent;"></td>
+          <td colspan="2" style="border:1px solid #1e88e5;padding:2px;"></td>
+        </tr>
+      </form><!-- Cursos, Seminarios, Diplomados, Congresos -->
+        <tr style="background:#e0f7fa;">
+      </table>
+      <!-- Tabla independiente para Cursos, Seminarios, Diplomados, Congresos -->
+      <table style="width:100%;border-collapse:collapse;font-size:0.98em;margin-top:12px;">
         <tr style="background:#e0f7fa;">
           <td colspan="3" style="border:1px solid #1e88e5;padding:2px;font-weight:bold;">Cursos, Seminarios, Diplomados, Congresos</td>
           <td colspan="3" style="border:1px solid #1e88e5;padding:2px;font-weight:bold;">Institución donde se realizó</td>
           <td colspan="2" style="border:1px solid #1e88e5;padding:2px;font-weight:bold;">Duración</td>
         </tr>
-        <!-- 6 filas de cursos -->
         <tr>
-          <td colspan="3" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Nombre del curso o evento" style="width:98%;border:none;background:transparent;"></td>
-          <td colspan="3" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Institución" style="width:98%;border:none;background:transparent;"></td>
-          <td colspan="2" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Duración" style="width:98%;border:none;background:transparent;"></td>
+          <td colspan="3" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Curso/Seminario/Diplomado/Congreso" style="width:100%;border:none;background:transparent;"></td>
+          <td colspan="3" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Institución" style="width:100%;border:none;background:transparent;"></td>
+          <td colspan="2" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Duración" style="width:100%;border:none;background:transparent;"></td>
         </tr>
         <tr>
-          <td colspan="3" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Nombre del curso o evento" style="width:98%;border:none;background:transparent;"></td>
-          <td colspan="3" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Institución" style="width:98%;border:none;background:transparent;"></td>
-          <td colspan="2" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Duración" style="width:98%;border:none;background:transparent;"></td>
+          <td colspan="3" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Curso/Seminario/Diplomado/Congreso" style="width:100%;border:none;background:transparent;" /></td>
+          <td colspan="3" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Institución" style="width:100%;border:none;background:transparent;" /></td>
+          <td colspan="2" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Duración" style="width:100%;border:none;background:transparent;" /></td>
         </tr>
         <tr>
-          <td colspan="3" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Nombre del curso o evento" style="width:98%;border:none;background:transparent;"></td>
-          <td colspan="3" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Institución" style="width:98%;border:none;background:transparent;"></td>
-          <td colspan="2" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Duración" style="width:98%;border:none;background:transparent;"></td>
+          <td colspan="3" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Curso/Seminario/Diplomado/Congreso" style="width:100%;border:none;background:transparent;"></td>
+          <td colspan="3" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Institución" style="width:100%;border:none;background:transparent;"></td>
+          <td colspan="2" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Duración" style="width:100%;border:none;background:transparent;"></td>
         </tr>
         <tr>
-          <td colspan="3" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Nombre del curso o evento" style="width:98%;border:none;background:transparent;"></td>
-          <td colspan="3" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Institución" style="width:98%;border:none;background:transparent;"></td>
-          <td colspan="2" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Duración" style="width:98%;border:none;background:transparent;"></td>
+          <td colspan="3" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Curso/Seminario/Diplomado/Congreso" style="width:100%;border:none;background:transparent;"></td>
+          <td colspan="3" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Institución" style="width:100%;border:none;background:transparent;"></td>
+          <td colspan="2" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Duración" style="width:100%;border:none;background:transparent;"></td>
         </tr>
         <tr>
-          <td colspan="3" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Nombre del curso o evento" style="width:98%;border:none;background:transparent;"></td>
-          <td colspan="3" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Institución" style="width:98%;border:none;background:transparent;"></td>
-          <td colspan="2" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Duración" style="width:98%;border:none;background:transparent;"></td>
+          <td colspan="3" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Curso/Seminario/Diplomado/Congreso" style="width:100%;border:none;background:transparent;"></td>
+          <td colspan="3" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Institución" style="width:100%;border:none;background:transparent;"></td>
+          <td colspan="2" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Duración" style="width:100%;border:none;background:transparent;"></td>
         </tr>
-        <tr>
-          <td colspan="3" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Nombre del curso o evento" style="width:98%;border:none;background:transparent;"></td>
-          <td colspan="3" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Institución" style="width:98%;border:none;background:transparent;"></td>
-          <td colspan="2" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Duración" style="width:98%;border:none;background:transparent;"></td>
-        </tr>
-        <!-- ...fin tabla de cursos... -->
       </table>
       <!-- Tabla independiente de idiomas -->
       <table style="width:100%;border-collapse:collapse;font-size:0.98em;margin-top:12px;">
@@ -266,7 +384,16 @@
           <td colspan="8" style="border:1px solid #1e88e5;padding:2px;font-weight:bold;">IDIOMA: otro idioma diferente al español</td>
         </tr>
         <tr>
-          <td colspan="4" style="border:1px solid #1e88e5;padding:2px;">Inglés</td>
+          <td style="border:1px solid #1e88e5;padding:2px;">Inglés</td>
+          <td style="border:1px solid #1e88e5;padding:2px;">
+            <input type="checkbox"> Habla
+          </td>
+          <td style="border:1px solid #1e88e5;padding:2px;">
+            <input type="checkbox"> Lee
+          </td>
+          <td style="border:1px solid #1e88e5;padding:2px;">
+            <input type="checkbox"> Escribe
+          </td>
           <td colspan="4" style="border:1px solid #1e88e5;padding:2px;">
             <select style="width:98%;border:none;background:transparent;">
               <option value="">Seleccione nivel</option>
@@ -277,7 +404,10 @@
           </td>
         </tr>
         <tr>
-          <td colspan="4" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Otro idioma" style="width:98%;border:none;background:transparent;"></td>
+          <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Otro idioma" style="width:98%;border:none;background:transparent;"></td>
+          <td style="border:1px solid #1e88e5;padding:2px;"><input type="checkbox"> Habla</td>
+          <td style="border:1px solid #1e88e5;padding:2px;"><input type="checkbox"> Lee</td>
+          <td style="border:1px solid #1e88e5;padding:2px;"><input type="checkbox"> Escribe</td>
           <td colspan="4" style="border:1px solid #1e88e5;padding:2px;">
             <select style="width:98%;border:none;background:transparent;">
               <option value="">Seleccione nivel</option>
@@ -288,7 +418,10 @@
           </td>
         </tr>
         <tr>
-          <td colspan="4" style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Otro idioma" style="width:98%;border:none;background:transparent;"></td>
+          <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" placeholder="Otro idioma" style="width:98%;border:none;background:transparent;"></td>
+          <td style="border:1px solid #1e88e5;padding:2px;"><input type="checkbox"> Habla</td>
+          <td style="border:1px solid #1e88e5;padding:2px;"><input type="checkbox"> Lee</td>
+          <td style="border:1px solid #1e88e5;padding:2px;"><input type="checkbox"> Escribe</td>
           <td colspan="4" style="border:1px solid #1e88e5;padding:2px;">
             <select style="width:98%;border:none;background:transparent;">
               <option value="">Seleccione nivel</option>
@@ -298,113 +431,173 @@
             </select>
           </td>
         </tr>
-
       </table>
-      </table>
-      <table style="width:100%;border-collapse:collapse;font-size:0.98em;margin-top:8px;">
-        <tr>
-          <td colspan="6" style="border:1px solid #1e88e5;padding:4px;font-weight:bold;background:#e0f7fa;">PROGRAMA DE FORMACIÓN ACTUAL</td>
-        </tr>
-        <tr style="background:#f7fafd;">
-          <td style="border:1px solid #1e88e5;padding:2px;">Nombre del Programa</td>
-          <td style="border:1px solid #1e88e5;padding:2px;">Inicio Etapa Académica</td>
-          <td style="border:1px solid #1e88e5;padding:2px;">Fin Etapa Académica</td>
-          <td style="border:1px solid #1e88e5;padding:2px;">Duración Prácticas</td>
-        </tr>
-        <tr>
-          <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" style="width:100%;border:none;background:transparent;"></td>
-          <td style="border:1px solid #1e88e5;padding:2px;"><input type="date" style="width:100%;border:none;background:transparent;"></td>
-          <td style="border:1px solid #1e88e5;padding:2px;"><input type="date" style="width:100%;border:none;background:transparent;"></td>
-          <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" style="width:100%;border:none;background:transparent;"></td>
-        </tr>
-      </table>
-      <table style="width:100%;border-collapse:collapse;font-size:0.98em;margin-top:8px;">
-        <tr>
-          <td colspan="6" style="border:1px solid #1e88e5;padding:4px;font-weight:bold;background:#e0f7fa;">PERFIL OCUPACIONAL</td>
-        </tr>
-        <tr>
-          <td colspan="6" style="border:1px solid #1e88e5;padding:2px;">
-            <textarea style="width:100%;border:none;border-bottom:1px solid #1e88e5;background:transparent;min-height:80px;resize:vertical;font-size:1em;padding:8px;" placeholder="Describa su perfil ocupacional..."></textarea>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="6" style="border:1px solid #1e88e5;padding:2px;">
-            <label style="font-size:0.98em;color:#1565c0;">Identifique sus aficiones y deportes que practica:</label>
-            <input type="text" style="width:100%;border:none;border-bottom:1px solid #1e88e5;background:transparent;" placeholder="Ejemplo: Fútbol, lectura, música...">
-          </td>
-        </tr>
-      </table>
-      <table style="width:100%;border-collapse:collapse;font-size:0.98em;margin-top:8px;">
-        <tr>
-          <td colspan="6" style="border:1px solid #1e88e5;padding:4px;font-weight:bold;background:#e0f7fa;"> EXPERIENCIA LABORAL</td>
-        </tr>
-        <tr style="background:#f7fafd;">
-          <td style="border:1px solid #1e88e5;padding:2px;">Empresa</td>
-          <td style="border:1px solid #1e88e5;padding:2px;">Cargo</td>
-          <td style="border:1px solid #1e88e5;padding:2px;">Tiempo</td>
-          <td style="border:1px solid #1e88e5;padding:2px;">Inicio</td>
-          <td style="border:1px solid #1e88e5;padding:2px;">Fin</td>
-          <td style="border:1px solid #1e88e5;padding:2px;">Teléfono</td>
-        </tr>
-        <tr>
-          <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" style="width:100%;border:none;background:transparent;"></td>
-          <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" style="width:100%;border:none;background:transparent;"></td>
-          <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" style="width:100%;border:none;background:transparent;"></td>
-          <td style="border:1px solid #1e88e5;padding:2px;"><input type="date" style="width:100%;border:none;background:transparent;"></td>
-          <td style="border:1px solid #1e88e5;padding:2px;"><input type="date" style="width:100%;border:none;background:transparent;"></td>
-          <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" style="width:100%;border:none;background:transparent;"></td>
-        </tr>
-      </table>
-      <table style="width:100%;border-collapse:collapse;font-size:0.98em;margin-top:8px;">
-        <tr>
-          <td colspan="4" style="border:1px solid #1e88e5;padding:4px;font-weight:bold;background:#e0f7fa;">OBSERVACIONES</td>
-        </tr>
-        <tr>
-          <td colspan="4" style="border:1px solid #1e88e5;padding:2px;">
-            <textarea style="width:100%;border:none;border-bottom:1px solid #1e88e5;background:transparent;min-height:80px;resize:vertical;font-size:1em;padding:8px;" placeholder="Escriba aquí sus observaciones..."></textarea>
-          </td>
-        </tr>
-      </table>
-      <table style="width:100%;border-collapse:collapse;font-size:0.98em;margin-top:8px;">
-        <tr>
-          <td colspan="4" style="border:1px solid #1e88e5;padding:4px;font-weight:bold;background:#e0f7fa;"> REFERENCIAS PERSONALES Y FAMILIARES</td>
-        </tr>
-        <tr style="background:#f7fafd;">
-          <td style="border:1px solid #1e88e5;padding:2px;">Apellidos y Nombres</td>
-          <td style="border:1px solid #1e88e5;padding:2px;">Cargo</td>
-          <td style="border:1px solid #1e88e5;padding:2px;">Empresa</td>
-          <td style="border:1px solid #1e88e5;padding:2px;">Teléfono</td>
-        </tr>
-        <tr>
-          <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" style="width:100%;border:none;background:transparent;"></td>
-          <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" style="width:100%;border:none;background:transparent;"></td>
-          <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" style="width:100%;border:none;background:transparent;"></td>
-          <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" style="width:100%;border:none;background:transparent;"></td>
-        </tr>
-      </table>
-      <div style="margin-top:12px;font-size:0.95em;color:#1565c0;">Yo, el abajo firmante, declaro que toda la información consignada es real y fidedigna...</div>
-      <div style="display:flex;justify-content:space-between;margin-top:18px;">
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-      
+    </div>
+    <!-- Página 2 -->
+    <div class="pagina" style="width:900px;margin:auto;page-break-before:always;">
+      <div style="width:900px;margin:auto;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <img src="yireh.png" alt="Logo Elyon Yireh" style="height:38px;width:auto;vertical-align:middle;">
+          </div>
+          <div style="font-size:0.95em;">SISTEMA DE GESTIÓN DE LA CALIDAD</div>
+          <div style="font-size:0.95em;">Fecha: <input type="date" style="border:none;border-bottom:1px solid #1e88e5;background:transparent;width:120px;"></div>
+        </div>
+        <div style="text-align:center;font-size:1.3em;font-weight:700;color:#1e88e5;margin-bottom:8px;">PERFIL OCUPACIONAL</div>
+        <!-- Aquí va el contenido de la segunda página: Programa de formación actual, experiencia laboral, perfil ocupacional, observaciones, referencias, firmas, pie de página... -->
+        <table style="width:100%;border-collapse:collapse;font-size:0.98em;margin-top:8px;">
+          <tr>
+            <td colspan="6" style="border:1px solid #1e88e5;padding:4px;font-weight:bold;background:#e0f7fa;">PROGRAMA DE FORMACIÓN ACTUAL</td>
+          </tr>
+          <tr style="background:#f7fafd;">
+            <td style="border:1px solid #1e88e5;padding:2px;">Nombre del Programa</td>
+            <td style="border:1px solid #1e88e5;padding:2px;">Inicio Etapa Académica</td>
+            <td style="border:1px solid #1e88e5;padding:2px;">Fin Etapa Académica</td>
+            <td style="border:1px solid #1e88e5;padding:2px;">Duración Prácticas</td>
+          </tr>
+          <tr>
+            <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" style="width:100%;border:none;background:transparent;"></td>
+            <td style="border:1px solid #1e88e5;padding:2px;"><input type="date" style="width:100%;border:none;background:transparent;"></td>
+            <td style="border:1px solid #1e88e5;padding:2px;"><input type="date" style="width:100%;border:none;background:transparent;"></td>
+            <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" style="width:100%;border:none;background:transparent;"></td>
+          </tr>
+        </table>
+        <table style="width:100%;border-collapse:collapse;font-size:0.98em;margin-top:8px;">
+          <tr>
+            <td colspan="6" style="border:1px solid #1e88e5;padding:4px;font-weight:bold;background:#e0f7fa;">PERFIL OCUPACIONAL</td>
+          </tr>
+          <tr>
+            <td colspan="6" style="border:1px solid #1e88e5;padding:2px;">
+              <textarea style="width:100%;border:none;border-bottom:1px solid #1e88e5;background:transparent;min-height:80px;resize:vertical;font-size:1em;padding:8px;" placeholder="Describa su perfil ocupacional..."></textarea>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="6" style="border:1px solid #1e88e5;padding:2px;">
+              <label style="font-size:0.98em;color:#1565c0;">Identifique sus aficiones y deportes que practica:</label>
+              <input type="text" style="width:100%;border:none;border-bottom:1px solid #1e88e5;background:transparent;" placeholder="Ejemplo: Fútbol, lectura, música...">
+            </td>
+          </tr>
+        </table>
+        <table style="width:100%;border-collapse:collapse;font-size:0.98em;margin-top:8px;">
+          <tr>
+            <td colspan="6" style="border:1px solid #1e88e5;padding:4px;font-weight:bold;background:#e0f7fa;"> EXPERIENCIA LABORAL</td>
+          </tr>
+          <tr style="background:#f7fafd;">
+            <td style="border:1px solid #1e88e5;padding:2px;">Empresa</td>
+            <td style="border:1px solid #1e88e5;padding:2px;">Cargo</td>
+            <td style="border:1px solid #1e88e5;padding:2px;">Tiempo</td>
+            <td style="border:1px solid #1e88e5;padding:2px;">Inicio</td>
+            <td style="border:1px solid #1e88e5;padding:2px;">Fin</td>
+            <td style="border:1px solid #1e88e5;padding:2px;">Teléfono</td>
+          </tr>
+          <tr>
+            <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" style="width:100%;border:none;background:transparent;"></td>
+            <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" style="width:100%;border:none;background:transparent;"></td>
+            <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" style="width:100%;border:none;background:transparent;"></td>
+            <td style="border:1px solid #1e88e5;padding:2px;"><input type="date" style="width:100%;border:none;background:transparent;"></td>
+            <td style="border:1px solid #1e88e5;padding:2px;"><input type="date" style="width:100%;border:none;background:transparent;"></td>
+            <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" style="width:100%;border:none;background:transparent;"></td>
+          </tr>
+        </table>
+        <table style="width:100%;border-collapse:collapse;font-size:0.98em;margin-top:8px;">
+          <tr>
+            <td colspan="4" style="border:1px solid #1e88e5;padding:4px;font-weight:bold;background:#e0f7fa;">OBSERVACIONES</td>
+          </tr>
+          <tr>
+            <td colspan="4" style="border:1px solid #1e88e5;padding:2px;">
+              <textarea style="width:100%;border:none;border-bottom:1px solid #1e88e5;background:transparent;min-height:80px;resize:vertical;font-size:1em;padding:8px;" placeholder="Escriba aquí sus observaciones..."></textarea>
+            </td>
+          </tr>
+        </table>
+        <table style="width:100%;border-collapse:collapse;font-size:0.98em;margin-top:8px;">
+          <tr>
+            <td colspan="4" style="border:1px solid #1e88e5;padding:4px;font-weight:bold;background:#e0f7fa;"> REFERENCIAS PERSONALES Y FAMILIARES</td>
+          </tr>
+          <tr style="background:#f7fafd;">
+            <td style="border:1px solid #1e88e5;padding:2px;">Apellidos y Nombres</td>
+            <td style="border:1px solid #1e88e5;padding:2px;">Cargo</td>
+            <td style="border:1px solid #1e88e5;padding:2px;">Empresa</td>
+            <td style="border:1px solid #1e88e5;padding:2px;">Teléfono</td>
+          </tr>
+          <tr>
+            <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" style="width:100%;border:none;background:transparent;"></td>
+            <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" style="width:100%;border:none;background:transparent;"></td>
+            <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" style="width:100%;border:none;background:transparent;"></td>
+            <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" style="width:100%;border:none;background:transparent;"></td>
+          </tr>
+          <tr>
+            <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" style="width:100%;border:none;background:transparent;"></td>
+            <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" style="width:100%;border:none;background:transparent;"></td>
+            <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" style="width:100%;border:none;background:transparent;"></td>
+            <td style="border:1px solid #1e88e5;padding:2px;"><input type="text" style="width:100%;border:none;background:transparent;"></td>
+          </tr>
+        </table>
+        <div style="margin-top:12px;font-size:0.95em;color:#1565c0;">Yo, el abajo firmante, declaro que toda la información consignada es real y fidedigna...</div>
+        <div style="display:flex;justify-content:space-between;margin-top:18px;">
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:18px;font-size:0.97em;">
+          <div>Firma del estudiante: <input type="text" style="border:none;border-bottom:1px solid #1e88e5;background:transparent;width:180px;"></div>
+          <div>Coordinador de Práctica: <input type="text" style="border:none;border-bottom:1px solid #1e88e5;background:transparent;width:180px;"></div>
+        </div>
+        <div style="margin-top:18px;font-size:0.93em;color:#222;line-height:1.3;text-align:center;">
+          Dirección: Calle 31 A #46-13 Camino del medio Diagonal a Surtigas Barrio Boston<br>
+          Teléfonos: 674 6611 - 674 9909 - 674 1350 - 674 7191<br>
+          Página Web: <a href="http://www.elyonyireh.edu.co" target="_blank" style="color:#1e88e5;text-decoration:underline;">www.elyonyireh.edu.co</a><br>
+          Cartagena - Colombia
+        </div>
+        <div style="display:flex;justify-content:center;gap:18px;margin-top:32px;">
+          <button class="btn-download" type="button" id="btn-descargar-pdf" onclick="descargarPDF()" style="margin:0;" disabled>Descargar PDF</button>
+        </div>
       </div>
-      <div style="display:flex;justify-content:space-between;margin-top:18px;font-size:0.97em;">
-        <div>Firma del estudiante: <input type="text" style="border:none;border-bottom:1px solid #1e88e5;background:transparent;width:180px;"></div>
-        <div>Coordinador de Práctica: <input type="text" style="border:none;border-bottom:1px solid #1e88e5;background:transparent;width:180px;"></div>
-      </div>
-      <div style="margin-top:18px;font-size:0.93em;color:#222;line-height:1.3;text-align:center;">
-        Dirección: Calle 31 A #46-13 Camino del medio Diagonal a Surtigas Barrio Boston<br>
-        Teléfonos: 674 6611 - 674 9909 - 674 1350 - 674 7191<br>
-        Página Web: <a href="http://www.elyonyireh.edu.co" target="_blank" style="color:#1e88e5;text-decoration:underline;">www.elyonyireh.edu.co</a><br>
-        Cartagena - Colombia
-      </div>
-      <button class="btn-download" type="button" onclick="descargarPDF()" style="margin:32px auto 0 auto;display:block;">Descargar Y Enviar PDF</button>
+    </div>
     </form>
   </div>
-  <script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+ <script>
+    // --- FOTO CON CÁMARA ---
+    const btnTomarFoto = document.getElementById('btn-tomar-foto');
+    const btnCapturar = document.getElementById('btn-capturar');
+    const videoCamara = document.getElementById('video-camara');
+    let streamCamara = null;
+    btnTomarFoto.addEventListener('click', async function() {
+      btnTomarFoto.style.display = 'none';
+      btnCapturar.style.display = 'inline-block';
+      videoCamara.style.display = 'block';
+      fotoPreview.style.display = 'none';
+      fotoPlaceholder.style.display = 'none';
+      try {
+        streamCamara = await navigator.mediaDevices.getUserMedia({ video: true });
+        videoCamara.srcObject = streamCamara;
+        videoCamara.play();
+      } catch(e) {
+        alert('No se pudo acceder a la cámara.');
+        btnTomarFoto.style.display = 'inline-block';
+        btnCapturar.style.display = 'none';
+        videoCamara.style.display = 'none';
+        if(!fotoPreview.src) fotoPlaceholder.style.display = 'block';
+      }
+    });
+    btnCapturar.addEventListener('click', function() {
+      const canvas = document.createElement('canvas');
+      canvas.width = videoCamara.videoWidth;
+      canvas.height = videoCamara.videoHeight;
+      canvas.getContext('2d').drawImage(videoCamara, 0, 0, canvas.width, canvas.height);
+      const dataUrl = canvas.toDataURL('image/png');
+      fotoPreview.src = dataUrl;
+      fotoPreview.style.display = 'block';
+      videoCamara.style.display = 'none';
+      btnCapturar.style.display = 'none';
+      btnTomarFoto.style.display = 'inline-block';
+      if(streamCamara) {
+        streamCamara.getTracks().forEach(track => track.stop());
+        streamCamara = null;
+      }
+    });
     // Foto con botón
     const fotoInput = document.getElementById('foto-input');
     const fotoPreview = document.getElementById('foto-preview');
@@ -425,45 +618,25 @@
         reader.readAsDataURL(file);
       }
     });
-    // Descargar como PDF
+    // Descargar como PDF (solo una función, limpia)
     function descargarPDF() {
-      // Obtener el nombre del programa
       const programaInput = document.getElementById('programa-input');
       let nombre = programaInput && programaInput.value ? programaInput.value.trim() : 'Hoja_de_Vida';
       nombre = nombre.replace(/[^a-zA-Z0-9_\- ]/g, '').replace(/\s+/g, '_');
-      // Si el navegador soporta la API de impresión moderna
-      if (window.matchMedia('print').matches || window.navigator.userAgent.includes('Chrome')) {
-        // Chrome y navegadores modernos no permiten cambiar el nombre del PDF desde window.print().
-        // Pero si se usa la API de Web Print (no estándar), se puede sugerir el nombre.
-        // Como alternativa, mostrar una alerta con la sugerencia.
-        window.print();
-        setTimeout(function() {
-          alert('Cuando guardes el PDF, usa el nombre sugerido: ' + nombre + '.pdf');
-        }, 500);
-      } else {
-        window.print();
-      }
+      window.print();
+      setTimeout(function() {
+        alert('Cuando guardes el PDF, usa el nombre sugerido: ' + nombre + '.pdf');
+      }, 500);
     }
   </script>
   <script>
-    // Actualizar la vista previa en tiempo real
-    const form = document.getElementById('cvForm');
-    form.addEventListener('input', function() {
-      document.getElementById('cv-nombre').textContent = form.nombre.value || 'Nombre completo';
-      document.getElementById('cv-direccion').innerHTML = '<b>Dirección:</b> ' + (form.direccion.value || '');
-      document.getElementById('cv-telefono').innerHTML = '<b>Teléfono:</b> ' + (form.telefono.value || '');
-      document.getElementById('cv-email').innerHTML = '<b>Email:</b> ' + (form.email.value || '');
-      document.getElementById('cv-estudios').textContent = form.estudios.value;
-      document.getElementById('cv-experiencia').textContent = form.experiencia.value;
-      document.getElementById('cv-habilidades').textContent = form.habilidades.value;
+    // Habilitar el botón PDF al cargar
+    window.addEventListener('DOMContentLoaded', function() {
+      var btnPDF = document.getElementById('btn-descargar-pdf');
+      if (btnPDF) btnPDF.disabled = false;
+      var btnGuardar = document.getElementById('btn-guardar-pdf');
+      if (btnGuardar) btnGuardar.disabled = false;
     });
-    // Inicializar vista previa
-    form.dispatchEvent(new Event('input'));
-
-    // Descargar como PDF
-    function descargarPDF() {
-      window.print();
-    }
   </script>
 </body>
 </html>
